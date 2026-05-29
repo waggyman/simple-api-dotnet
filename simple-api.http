@@ -1,0 +1,73 @@
+@host = http://localhost:5081
+@token = {{login.response.body.token}}
+
+### Health
+GET {{host}}/health
+
+###
+
+### Register
+# @name register
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "password123"
+}
+
+###
+
+### Login
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "password123"
+}
+
+###
+
+### List todos
+GET {{host}}/api/todos
+Authorization: Bearer {{token}}
+
+###
+
+### Create todo
+# @name createTodo
+POST {{host}}/api/todos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk and eggs"
+}
+
+###
+
+### Get todo
+GET {{host}}/api/todos/{{createTodo.response.body.id}}
+Authorization: Bearer {{token}}
+
+###
+
+### Update todo
+PATCH {{host}}/api/todos/{{createTodo.response.body.id}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "isCompleted": true
+}
+
+###
+
+### Delete todo
+DELETE {{host}}/api/todos/{{createTodo.response.body.id}}
+Authorization: Bearer {{token}}
+
+###
